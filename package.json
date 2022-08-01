@@ -2,14 +2,15 @@
   "name": "blog-api",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "nodemon app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.18.1",
     "nodemon": "^2.0.19"
   }
 }
