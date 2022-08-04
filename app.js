@@ -1,5 +1,6 @@
 const express = require("express");
 const adminRoutes = require("./routes/admin");
+const { mongoConnect } = require("./util/database");
 
 const app = express();
 // to parse the body
@@ -10,6 +11,8 @@ app.use(
   })
 );
 
-app.use(adminRoutes);
+app.use("/admin", adminRoutes);
 
-app.listen(3000);
+mongoConnect(() => {
+  app.listen(4000);
+});
