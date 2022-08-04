@@ -24,3 +24,13 @@ exports.postAddProduct = (req, res, next) => {
       console.log("Error Occured!!");
     });
 };
+
+exports.getAllArticles = (req, res, next) => {
+  Article.fetchAll()
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error Occured!!");
+    });
+};

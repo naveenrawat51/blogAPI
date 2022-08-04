@@ -25,6 +25,21 @@ class Article {
         console.log(err);
       });
   }
+
+  static fetchAll() {
+    const db = getDb();
+    return db
+      .collection("articles")
+      .find()
+      .toArray()
+      .then((articles) => {
+        console.log(articles);
+        return articles;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 }
 
 module.exports = Article;
