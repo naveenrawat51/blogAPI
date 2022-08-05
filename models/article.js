@@ -1,16 +1,16 @@
-const { getDb } = require("../util/database");
+const { getDb } = require('../util/database');
 
 class Article {
   constructor(
     articleName,
     articleAuthor,
-    ArticleDescription,
+    articleDescription,
     creationDate,
     category
   ) {
     this.articleName = articleName;
     this.articleAuthor = articleAuthor;
-    this.ArticleDescription = ArticleDescription;
+    this.articleDescription = articleDescription;
     this.creationDate = creationDate;
     this.category = category;
   }
@@ -18,7 +18,7 @@ class Article {
   save() {
     const db = getDb();
     return db
-      .collection("articles")
+      .collection('articles')
       .insertOne(this)
       .then((result) => console.log(result))
       .catch((err) => {
@@ -29,7 +29,7 @@ class Article {
   static fetchAll() {
     const db = getDb();
     return db
-      .collection("articles")
+      .collection('articles')
       .find()
       .toArray()
       .then((articles) => {
