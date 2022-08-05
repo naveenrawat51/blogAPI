@@ -1,4 +1,4 @@
-const Article = require('../models/article');
+const Article = require("../models/article");
 
 exports.postAddProduct = (req, res, next) => {
   const articleName = req.body.articleName;
@@ -17,11 +17,11 @@ exports.postAddProduct = (req, res, next) => {
   article
     .save()
     .then((result) => {
-      console.log('Article Created!!');
+      console.log("Article Created!!");
       res.send(200);
     })
     .catch((err) => {
-      console.log('Error Occured!!');
+      console.log("Error Occured!!");
     });
 };
 
@@ -31,6 +31,16 @@ exports.getAllArticles = (req, res, next) => {
       res.send(result);
     })
     .catch((err) => {
-      console.log('Error Occured!!');
+      console.log("Error Occured!!");
+    });
+};
+
+exports.getLatestArticles = (req, res, next) => {
+  Article.fetchLatest()
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error Occured!!");
     });
 };

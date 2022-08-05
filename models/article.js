@@ -1,4 +1,4 @@
-const { getDb } = require('../util/database');
+const { getDb } = require("../util/database");
 
 class Article {
   constructor(
@@ -18,7 +18,7 @@ class Article {
   save() {
     const db = getDb();
     return db
-      .collection('articles')
+      .collection("articles")
       .insertOne(this)
       .then((result) => console.log(result))
       .catch((err) => {
@@ -29,8 +29,25 @@ class Article {
   static fetchAll() {
     const db = getDb();
     return db
-      .collection('articles')
+      .collection("articles")
       .find()
+      .toArray()
+      .then((articles) => {
+        console.log(articles);
+        return articles;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  static fetchLatest() {
+    const db = getDb();
+    return db
+      .collection("articles")
+      .find()
+      .limit(10)
+      .sort({ x: 1 })
       .toArray()
       .then((articles) => {
         console.log(articles);
