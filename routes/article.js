@@ -4,16 +4,16 @@ const {
   postAddProduct,
   getAllArticles,
   getLatestArticles,
+  getSingleArticle,
 } = require("../controllers/article");
 
+// to create an article
 router.post("/addArticle", postAddProduct);
+// to get all the articles
 router.get("/getAllArticles", getAllArticles);
+// to get the latest article
 router.get("/getLatestArticles", getLatestArticles);
+// to get the details of single article
+router.get("/getArticleDetails/:articleId", getSingleArticle);
 
 module.exports = router;
-
-// localhost:4000/api/addArticle   (to create the post)
-
-// localhost:4000/api/getAllArticles   (to get post)
-
-// localhost:4000/api/getLatestArticles   (to get latest post)

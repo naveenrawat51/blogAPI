@@ -44,3 +44,14 @@ exports.getLatestArticles = (req, res, next) => {
       console.log("Error Occured!!");
     });
 };
+
+exports.getSingleArticle = (req, res, next) => {
+  const articleId = req.params.articleId;
+  Article.fetchArticleDetails(articleId)
+    .then((result) => {
+      res.send(result);
+    })
+    .catch((err) => {
+      console.log("Error Occured!!");
+    });
+};

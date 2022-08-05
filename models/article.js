@@ -1,3 +1,4 @@
+const mongodb = require("mongodb");
 const { getDb } = require("../util/database");
 
 class Article {
@@ -49,6 +50,21 @@ class Article {
       .limit(10)
       .sort({ x: 1 })
       .toArray()
+      .then((articles) => {
+        console.log(articles);
+        return articles;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  static fetchArticleDetails(articleId) {
+    const db = getDb();
+    return db
+      .collection("articles")
+      .find({ _id: new mongodb.ObjectId(articleId) })
+      .next()
       .then((articles) => {
         console.log(articles);
         return articles;
