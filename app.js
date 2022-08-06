@@ -6,13 +6,13 @@ const { setCors } = require("./util/middleware");
 const MongoDBStore = require("connect-mongodb-session")(session);
 
 const articleRoutes = require("./routes/article");
-const userRoutes = require("./routes/user");
-const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/auth");
 
 const app = express();
 dotenv.config();
 const store = new MongoDBStore({
   uri: process.env.CONNECTION_STRING,
+  collection: "sessions",
 });
 // to parse the body
 app.use(express.json());
@@ -23,7 +23,12 @@ app.use(
 );
 // express session middleware
 app.use(
-  session({ secret: "my secret", resave: false, saveUninitialized: false })
+  session({
+    secret: "my secret",
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+  })
 );
 // to allow all the connections
 app.use(setCors);
@@ -31,7 +36,6 @@ app.use(setCors);
 // application routes
 app.use("/api", articleRoutes);
 app.use("/api", userRoutes);
-app.use("/api", authRoutes);
 
 mongoConnect(() => {
   app.listen(process.env.PORT);
