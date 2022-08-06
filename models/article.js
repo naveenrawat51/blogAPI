@@ -7,13 +7,15 @@ class Article {
     articleAuthor,
     articleDescription,
     creationDate,
-    category
+    category,
+    userId
   ) {
     this.articleName = articleName;
     this.articleAuthor = articleAuthor;
     this.articleDescription = articleDescription;
     this.creationDate = creationDate;
     this.category = category;
+    this.userId = userId ? new mongodb.ObjectId(id) : null;
   }
 
   save() {

@@ -6,12 +6,15 @@ exports.postAddProduct = (req, res, next) => {
   const articleDescription = req.body.articleDescription;
   const creationDate = req.body.creationDate;
   const category = req.body.category;
+  const userId = req.body.userId;
+
   const article = new Article(
     articleName,
     articleAuthor,
     articleDescription,
     creationDate,
-    category
+    category,
+    userId
   );
 
   article

@@ -5,3 +5,5 @@
 // GET localhost:4000/api/getLatestArticles   (to get latest post)
 
 // GET localhost:4000/api/getArticleDetails/:id   (to get single article details)
+
+// POST http://localhost:4000/api/addUser        (to create/register the user)
