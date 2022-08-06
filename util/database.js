@@ -1,9 +1,10 @@
 const { MongoClient, ServerApiVersion } = require("mongodb");
+const { connection_str } = require("../config");
 
 let db;
 
 const mongoConnect = async (callback) => {
-  const uri = process.env.CONNECTION_STRING;
+  const uri = connection_str;
 
   const client = new MongoClient(uri, {
     useNewUrlParser: true,

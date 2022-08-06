@@ -1,5 +1,5 @@
 const express = require("express");
-const dotenv = require("dotenv");
+const { connection_str, port } = require("./config");
 const { mongoConnect } = require("./util/database");
 const session = require("express-session");
 const { setCors } = require("./util/middleware");
@@ -7,11 +7,10 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 
 const articleRoutes = require("./routes/article");
 const userRoutes = require("./routes/auth");
-
 const app = express();
-dotenv.config();
+
 const store = new MongoDBStore({
-  uri: process.env.CONNECTION_STRING,
+  uri: connection_str,
   collection: "sessions",
 });
 // to parse the body
@@ -38,5 +37,5 @@ app.use("/api", articleRoutes);
 app.use("/api", userRoutes);
 
 mongoConnect(() => {
-  app.listen(process.env.PORT);
+  app.listen(port);
 });

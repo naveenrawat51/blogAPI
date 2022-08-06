@@ -1,35 +1,56 @@
 const User = require("../models/auth");
+const bcrypt = require("bcryptjs");
+const { generateAccessToken } = require("../util/middleware");
 
 exports.createUser = async (req, res, next) => {
   const username = req.body.username;
   const phone = req.body.phone;
   const email = req.body.email;
   const password = req.body.password;
+  const pwd = await bcrypt.hash(password, 12); // to hash the password
 
-  const user = new User(username, phone, email, password);
+  const user = new User(username, phone, email, pwd);
 
   const userDetail = await user.isUserExists(email);
   if (userDetail) {
-    res.send({ msg: "User already exist, so please login", status: false });
-    return;
+    return res.send({
+      msg: "User already exist, so please login",
+      status: false,
+    });
   }
 
   user
     .save()
-    .then((result) => {
-      res.send({ msg: "New user created", status: true });
-    })
+    .then((result) => res.send({ msg: "New user created", status: true }))
     .catch((err) => {
       console.log("Error Occured!!");
     });
 };
 
-exports.login = (req, res, next) => {
-  const username = req.body.username;
+exports.login = async (req, res, next) => {
+  const email = req.body.email;
   const password = req.body.password;
 
   req.session.isLoggedIn = true;
 
+  const user = await User.findUser(email);
+  if (!user) {
+    return res.send({ msg: "User not registered", status: false });
+  }
+
   //   res.setHeader("Set-Cookie", "loggedIn=true");
-  res.send({ msg: "logged in" });
+  const isPasswordCorrect = await bcrypt.compare(password, user.password);
+  if (!isPasswordCorrect) {
+    return res.send({ msg: "Email or Password is not correct", status: false });
+  }
+
+  req.session.isLoggedIn = true;
+  req.session.user = user;
+  req.session.save();
+  const token = generateAccessToken(user);
+  const resData = {
+    token,
+    status: true,
+  };
+  return res.send(resData);
 };

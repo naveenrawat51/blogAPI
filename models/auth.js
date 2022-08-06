@@ -22,19 +22,18 @@ class User {
       });
   }
 
-  static findById(userId) {
+  isUserExists(email) {
     const db = getDb();
     return db
       .collection("users")
-      .findOne({ _id: new ObjectId(userId) })
-      .next()
+      .findOne({ email: email })
       .then((user) => user)
       .catch((err) => {
         console.log(err);
       });
   }
 
-  isUserExists(email) {
+  static findUser(email) {
     const db = getDb();
     return db
       .collection("users")
