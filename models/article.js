@@ -67,10 +67,7 @@ class Article {
       .collection("articles")
       .find({ _id: new mongodb.ObjectId(articleId) })
       .next()
-      .then((articles) => {
-        console.log(articles);
-        return articles;
-      })
+      .then((articles) => articles)
       .catch((err) => {
         console.log(err);
       });

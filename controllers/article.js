@@ -49,6 +49,9 @@ exports.getLatestArticles = (req, res, next) => {
 };
 
 exports.getSingleArticle = (req, res, next) => {
+  // console.log("get Cookie: ", req.get("Cookie"));
+  console.log("get single article session: ", req.session.isLoggedIn);
+
   const articleId = req.params.articleId;
   Article.fetchArticleDetails(articleId)
     .then((result) => {

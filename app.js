@@ -1,9 +1,19 @@
 const express = require("express");
+const dotenv = require("dotenv");
+const { mongoConnect } = require("./util/database");
+const session = require("express-session");
+const { setCors } = require("./util/middleware");
+const MongoDBStore = require("connect-mongodb-session")(session);
+
 const articleRoutes = require("./routes/article");
 const userRoutes = require("./routes/user");
-const { mongoConnect } = require("./util/database");
+const authRoutes = require("./routes/auth");
 
 const app = express();
+dotenv.config();
+const store = new MongoDBStore({
+  uri: process.env.CONNECTION_STRING,
+});
 // to parse the body
 app.use(express.json());
 app.use(
@@ -11,22 +21,18 @@ app.use(
     extended: true,
   })
 );
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin,X-Requested-With,Content-Type,Accept"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET,POST,PUT,PATCH,DELETE,OPTIONS"
-  );
-  next();
-});
+// express session middleware
+app.use(
+  session({ secret: "my secret", resave: false, saveUninitialized: false })
+);
+// to allow all the connections
+app.use(setCors);
 
+// application routes
 app.use("/api", articleRoutes);
 app.use("/api", userRoutes);
+app.use("/api", authRoutes);
 
 mongoConnect(() => {
-  app.listen(4000);
+  app.listen(process.env.PORT);
 });
