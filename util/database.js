@@ -13,6 +13,7 @@ const mongoConnect = async (callback) => {
   });
   client.connect((err) => {
     db = client.db();
+    console.log("Database Connected");
     callback();
   });
 };

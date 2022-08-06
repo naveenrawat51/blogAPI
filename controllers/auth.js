@@ -21,7 +21,14 @@ exports.createUser = async (req, res, next) => {
 
   user
     .save()
-    .then((result) => res.send({ msg: "New user created", status: true }))
+    .then((result) => {
+      const token = generateAccessToken(user);
+      const resData = {
+        token,
+        status: true,
+      };
+      return res.send(resData);
+    })
     .catch((err) => {
       console.log("Error Occured!!");
     });
@@ -30,8 +37,6 @@ exports.createUser = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-
-  req.session.isLoggedIn = true;
 
   const user = await User.findUser(email);
   if (!user) {
@@ -44,9 +49,6 @@ exports.login = async (req, res, next) => {
     return res.send({ msg: "Email or Password is not correct", status: false });
   }
 
-  req.session.isLoggedIn = true;
-  req.session.user = user;
-  req.session.save();
   const token = generateAccessToken(user);
   const resData = {
     token,

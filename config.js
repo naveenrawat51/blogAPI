@@ -1,7 +1,6 @@
-const dotenv = require("dotenv");
-dotenv.config();
 module.exports = {
-  connection_str: process.env.CONNECTION_STRING,
-  jwt_secret: process.env.JWT_SECRET,
-  port: process.env.PORT,
+  connection_str:
+    "mongodb+srv://naveen:India1819@article.rd6ashs.mongodb.net/?retryWrites=true&w=majority",
+  jwt_secret: "naveen",
+  port: 4000,
 };
